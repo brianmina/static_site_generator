@@ -21,3 +21,7 @@ class HTMLNode():
     def __repr__(self):
         children_count = len(self.children) if self.children else 0
         return f"HTMLNode(tag={self.tag}, value={self.value}, children={children_count}, props={self.props})"
+    
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, attributes=None):
+        super().__init__(tag, value, attributes=attributes)
