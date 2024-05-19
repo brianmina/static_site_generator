@@ -23,5 +23,21 @@ class HTMLNode():
         return f"HTMLNode(tag={self.tag}, value={self.value}, children={children_count}, props={self.props})"
     
 class LeafNode(HTMLNode):
-    def __init__(self, tag, value, attributes=None):
-        super().__init__(tag, value, attributes=attributes)
+    def __init__(self, tag, value=None, props=None):
+        super().__init__(tag, value=value, props=None)
+        if value is None:
+            raise ValueError("LeafNode must have a value")
+    
+    def _format_props(self):
+        if not self.props:
+            return ""
+        props_string = " ".join(f'{key}="{value}"' for key,value in self.props.items())
+        return f"  {props_string}"
+    
+    def to_html(self):
+        if not self.tag:
+            return self.value
+        
+        # Otherwise, contruct the HTML tag string
+        props_string = self._format_props()
+        return f"<{self.tag}{props_string}>{self.value}</{self.tag}>"

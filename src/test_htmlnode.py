@@ -2,6 +2,7 @@
 import unittest
 
 from htmlnode import HTMLNode
+from htmlnode import LeafNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -46,6 +47,17 @@ class TestHTMLNode(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             node.to_html()
         
+
+
+
+class TestLeafNode(unittest.TestCase):
+     def test_html_node_basics(self):
+        node = HTMLNode("div")
+        self.assertEqual(node.tag, "div")
+        self.assertEqual(node.value, None)
+        self.assertEqual(node.props, {})
+
+
 
 if __name__ == "__main__":
     unittest.main()
