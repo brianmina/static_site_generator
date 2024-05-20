@@ -70,6 +70,21 @@ class TestParentNode(unittest.TestCase):
         node = ParentNode("div", [self.leaf1, self.leaf2])
         self.assertEqual(node.tag, "div")
         self.assertEqual(node.children, [self.leaf1, self.leaf2])
+    
+    def test_to_html(self):
+        # Test to_html method
+        node = ParentNode("p", [self.leaf1, self.leaf2, self.leaf3])
+        expected_html = "<p><b>Bold text</b>Normal text<i>Italic text</i></p>"
+        self.assertEqual(node.to_html(), expected_html)
+    
+    def test_nested_parent_nodes(self):
+        # Test nested ParentNode
+        child_node = ParentNode("span", [self.leaf1])
+        parent_node = ParentNode("div", [child_node, self.leaf2])
+        expected_html = "<div><span><b>Bold text</b></span>Normal text</div>"
+        self.assertEqual(parent_node.to_html(), expected_html)
+    
+   
         
 
 

@@ -40,9 +40,14 @@ class LeafNode(HTMLNode):
 
 class ParentNode(HTMLNode):
     def __init__(self, tag, children):
+        if not self.tag:
+            raise ValueError("no tag value")
+        if not self.children:
+            raise ValueError("no children value")
+
         self.tag = tag
         self.children = children
-
+        
     def to_html(self):
         if not self.tag:
             raise ValueError("no tag value")
