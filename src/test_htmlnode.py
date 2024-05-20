@@ -3,6 +3,7 @@ import unittest
 
 from htmlnode import HTMLNode
 from htmlnode import LeafNode
+from htmlnode import ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -59,11 +60,16 @@ class TestLeafNode(unittest.TestCase):
 
 
 class TestParentNode(unittest.TestCase):
-    def setup(self):
+
+    def setUp(self):
         self.leaf1 = LeafNode("b", "Bold text")
         self.leaf2 = LeafNode(None, "Normal text")
-        self.leaf3
-        
+        self.leaf3 = LeafNode("i", "Italic text")
+
+    def test_valid_initialization(self):
+        node = ParentNode("div", [self.leaf1, self.leaf2])
+        self.assertEqual(node.tag, "div")
+        self.assertEqual(node.children, [self.leaf1, self.leaf2])
         
 
 
