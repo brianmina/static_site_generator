@@ -22,22 +22,32 @@ class HTMLNode():
         children_count = len(self.children) if self.children else 0
         return f"HTMLNode(tag={self.tag}, value={self.value}, children={children_count}, props={self.props})"
     
+    
 class LeafNode(HTMLNode):
     def __init__(self, tag, value=None, props=None):
         super().__init__(tag, value=value, props=None)
         if value is None:
             raise ValueError("LeafNode must have a value")
     
-    def _format_props(self):
-        if not self.props:
-            return ""
-        props_string = " ".join(f'{key}="{value}"' for key,value in self.props.items())
-        return f"  {props_string}"
-    
     def to_html(self):
         if not self.tag:
             return self.value
         
         # Otherwise, contruct the HTML tag string
-        props_string = self._format_props()
+        props_string = self.props_to_html()
         return f"<{self.tag}{props_string}>{self.value}</{self.tag}>"
+    
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children):
+        self.tag = tag
+        self.children = children
+
+    def to_html(self):
+        if not self.tag:
+            raise ValueError("no tag value")
+        if not self.children:
+            raise ValueError("no children value")
+        
+        children_html = ''.join(child.to_html() for  child in self.children)
+        return f"<{self.tag}>{children_html}</{self.tag}>"

@@ -52,10 +52,19 @@ class TestHTMLNode(unittest.TestCase):
 
 class TestLeafNode(unittest.TestCase):
      def test_html_node_basics(self):
-        node = HTMLNode("div")
+        node = LeafNode("div", "Hola", {"id": "main", "class": "container"})
         self.assertEqual(node.tag, "div")
-        self.assertEqual(node.value, None)
-        self.assertEqual(node.props, {})
+        self.assertEqual(node.value, "Hola")
+        #pending to test props in the future
+
+
+class TestParentNode(unittest.TestCase):
+    def setup(self):
+        self.leaf1 = LeafNode("b", "Bold text")
+        self.leaf2 = LeafNode(None, "Normal text")
+        self.leaf3
+        
+        
 
 
 
