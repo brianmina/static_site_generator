@@ -12,7 +12,7 @@ from textnode import (
 )
 
 
-class TestInlineMarkdown(unittest.TestCase):
+class TestSplitDelimeter(unittest.TestCase):
     def test_delim_bold(self):
         node = TextNode("This is text with a **bolded** word", text_type_text)
         new_nodes = split_nodes_delimiter([node], "**", text_type_bold)

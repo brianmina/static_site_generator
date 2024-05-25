@@ -1,10 +1,9 @@
 from textnode import TextNode
-print("Hello world!")
 
 
 def main():
-    node = TextNode("Hello", "bold", "www.mina.com")
+    node = TextNode("This is a text node", "bold", "https://www.boot.dev")
     print(node)
 
-if __name__ == "__main__":
-    main()
+
+main()
