@@ -1,4 +1,5 @@
 from htmlnode import LeafNode
+from extract_regex import extract_markdown_images, extract_markdown_links
 
 text_type_text = "text"
 text_type_bold = "bold"
@@ -40,3 +41,80 @@ def text_node_to_html_node(text_node):
         return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
     raise ValueError(f"Invalid text type: {text_node.text_type}")
 
+
+
+def split_node_images(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type == text_type_text:
+            images = extract_markdown_images(node.content)
+
+            if not images:
+                # No images found, append the original node
+                new_nodes.append(node)
+                continue
+            
+            # Start with the original text
+            curr_text = node.content
+
+            for alt_text, img_url in images:
+                # Split around the first image found
+                before_img, after_img = curr_text.split(f"![{alt_text}]({img_url})", 1)
+
+                # Append the part before the image if it's not empty
+                if before_img:
+                    new_nodes.append(TextNode(before_img, text_type_text))
+                # Append the image itself as a TextNode
+                new_nodes.append(TextNode(alt_text, text_type_image, img_url))
+
+                # Continue processing the remainder of the text
+                curr_text =  after_img
+            
+            # After all images are processed, append any remaining text
+            if curr_text:
+                new_nodes.append(TextNode(curr_text,text_type_text))
+
+        else:
+            # For any non-text type, just append the node as it is
+            new_nodes.append(node)
+    
+    return new_nodes
+
+
+
+
+
+def split_node_links(old_nodes):
+    new_nodes = []
+    for node in old_nodes:
+        if node.text_type == text_type_text:
+            links = extract_markdown_links(node.content)
+
+            if not links:
+                new_nodes.append(node)
+                continue
+             # Start with the original text
+            curr_text = node.content
+
+            for alt_text, link_url in links:
+                # Split around the first image found
+                before_lnk, after_lnk = curr_text.split(f"![{alt_text}]({link_url})", 1)
+
+                # Append the part before the image if it's not empty
+                if before_lnk:
+                    new_nodes.append(TextNode(before_lnk, text_type_text))
+                # Append the image itself as a TextNode
+                new_nodes.append(TextNode(alt_text, text_type_image, link_url))
+
+                # Continue processing the remainder of the text
+                curr_text =  after_lnk
+            
+            # After all images are processed, append any remaining text
+            if curr_text:
+                new_nodes.append(TextNode(curr_text,text_type_text))
+
+        else:
+            # For any non-text type, just append the node as it is
+            new_nodes.append(node)
+    
+    return new_nodes
