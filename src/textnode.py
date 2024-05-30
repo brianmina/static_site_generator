@@ -47,7 +47,7 @@ def split_node_images(old_nodes):
     new_nodes = []
     for node in old_nodes:
         if node.text_type == text_type_text:
-            images = extract_markdown_images(node.content)
+            images = extract_markdown_images(node.text)
 
             if not images:
                 # No images found, append the original node
@@ -55,7 +55,7 @@ def split_node_images(old_nodes):
                 continue
             
             # Start with the original text
-            curr_text = node.content
+            curr_text = node.text
 
             for alt_text, img_url in images:
                 # Split around the first image found
@@ -88,13 +88,13 @@ def split_node_links(old_nodes):
     new_nodes = []
     for node in old_nodes:
         if node.text_type == text_type_text:
-            links = extract_markdown_links(node.content)
+            links = extract_markdown_links(node.text)
 
             if not links:
                 new_nodes.append(node)
                 continue
              # Start with the original text
-            curr_text = node.content
+            curr_text = node.text
 
             for alt_text, link_url in links:
                 # Split around the first image found

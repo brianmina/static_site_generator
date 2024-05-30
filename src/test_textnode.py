@@ -46,19 +46,19 @@ class TestSplitNodesImage(unittest.TestCase):
         node = TextNode("Just some plain text.", text_type_text)
         new_nodes = split_node_images([node])
         self.assertEqual(len(new_nodes), 1)
-        self.assertEqual(new_nodes[0].content, "Just some plain text.")
+        self.assertEqual(new_nodes[0].text, "Just some plain text.")
         self.assertEqual(new_nodes[0].text_type, text_type_text)
 
     def test_split_nodes_image_single_image(self):
         node = TextNode("Text before ![image](url) text after.", text_type_text)
         new_nodes = split_node_images([node])
         self.assertEqual(len(new_nodes), 3)
-        self.assertEqual(new_nodes[0].content, "Text before ")
+        self.assertEqual(new_nodes[0].text, "Text before ")
         self.assertEqual(new_nodes[0].text_type, text_type_text)
-        self.assertEqual(new_nodes[1].content, "image")
+        self.assertEqual(new_nodes[1].text, "image")
         self.assertEqual(new_nodes[1].text_type, text_type_image)
         self.assertEqual(new_nodes[1].url, "url")
-        self.assertEqual(new_nodes[2].content, " text after.")
+        self.assertEqual(new_nodes[2].text, " text after.")
         self.assertEqual(new_nodes[2].text_type, text_type_text)
 
 
