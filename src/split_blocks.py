@@ -23,14 +23,14 @@ def markdown_to_blocks(markdown):
         blocks.append(' '.join(current_block).strip())
 
     return blocks
-# Test with an example string to see what it looks like
-test_markdown = """This is **bolded** paragraph
+# # Test with an example string to see what it looks like
+# test_markdown = """This is **bolded** paragraph
 
-This is another paragraph with *italic* text and `code` here
-This is the same paragraph on a new line
+# This is another paragraph with *italic* text and `code` here
+# This is the same paragraph on a new line
 
-* This is a list
-* with items"""
+# * This is a list
+# * with items"""
 
-# Call the function and print the result
-print(markdown_to_blocks(test_markdown))
+# # Call the function and print the result
+# print(markdown_to_blocks(test_markdown))

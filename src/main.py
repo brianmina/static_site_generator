@@ -5,6 +5,7 @@ import shutil
 def copy_static(source, destination):
     # Check if the source directory exists
     if not os.path.exists(source):
+        print(f"Current working directory: {os.getcwd()}")
         print(f"The source directory {source} does not exist.")
         return
     
