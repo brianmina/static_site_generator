@@ -1,6 +1,6 @@
 
 from htmlnode import ParentNode
-from split_delimeter import text_to_textnodes
+from inline_markdown import text_to_textnodes
 from textnode import text_node_to_html_node
 
 block_type_paragraph = "paragraph"
@@ -29,6 +29,23 @@ def markdown_to_html_node(markdown):
         html_node = block_to_html_node(block)
         children.append(html_node)
     return ParentNode("div", children, None)
+
+
+def block_to_html_node(block):
+    block_type = block_to_block_type(block)
+    if block_type == block_type_paragraph:
+        return paragraph_to_html_node(block)
+    if block_type == block_type_heading:
+        return heading_to_html_node(block)
+    if block_type == block_type_code:
+        return code_to_html_node(block)
+    if block_type == block_type_olist:
+        return olist_to_html_node(block)
+    if block_type == block_type_ulist:
+        return ulist_to_html_node(block)
+    if block_type == block_type_quote:
+        return quote_to_html_node(block)
+    raise ValueError("Invalid block type")
 
 
 def block_to_block_type(block):
@@ -68,26 +85,6 @@ def block_to_block_type(block):
             i += 1
         return block_type_olist
     return block_type_paragraph
-
-
-def block_to_html_node(block):
-    block_type = block_to_block_type(block)
-    if block_type == block_type_paragraph:
-        return paragraph_to_html_node(block)
-    if block_type == block_type_heading:
-        return heading_to_html_node(block)
-    if block_type == block_type_code:
-        return code_to_html_node(block)
-    if block_type == block_type_olist:
-        return olist_to_html_node(block)
-    if block_type == block_type_ulist:
-        return ulist_to_html_node(block)
-    if block_type == block_type_quote:
-        return quote_to_html_node(block)
-    raise ValueError("Invalid block type")
-
-
-
 
 
 def text_to_children(text):
@@ -159,7 +156,3 @@ def quote_to_html_node(block):
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
-
-
-
-
